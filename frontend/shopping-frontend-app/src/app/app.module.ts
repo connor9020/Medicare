@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { AdmindashboardComponent } from './admindashboard/admindashboard.component';
-import { CustomerdashboardComponent } from './customerdashboard/customerdashboard.component';
+import { AdminDashboardComponent } from './admindashboard/admindashboard.component';
+import { CustomerDashboardComponent } from './customerdashboard/customerdashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 @NgModule({
@@ -14,8 +14,8 @@ import {HttpClientModule} from '@angular/common/http';
     AppComponent,
     LoginComponent,
     SignupComponent,
-    AdmindashboardComponent,
-    CustomerdashboardComponent
+    AdminDashboardComponent,
+    CustomerDashboardComponent
   ],
   imports: [
     BrowserModule,

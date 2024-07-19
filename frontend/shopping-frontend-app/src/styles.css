@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.custom-jumbotron {
+    background-color: #e9ecef; /* Light grey background */
+    color: #333; /* Dark text */
+    padding: 2rem;
+    border-radius: 0.5rem;
+  }
+  
+  .custom-header {
+    color: #007bff; /* Bootstrap primary color */
+  }
+  
+  .custom-lead {
+    color: #6c757d; /* Bootstrap secondary color */
+  }
+  

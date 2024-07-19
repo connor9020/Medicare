@@ -1,3 +1,9 @@
 <div>
-    <h3>Welcome to Customer Home Page {{emailid}}</h3>
-</div>
+    <p>Email: {{ emailid }}</p>
+    <h2>Customer List</h2>
+    <ul>
+      <li *ngFor="let customer of customers">
+        {{ customer.name }} - {{ customer.email }} - {{ customer.phone }}
+      </li>
+    </ul>
+  </div>

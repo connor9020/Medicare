@@ -2,11 +2,15 @@
     <h2>Login Page</h2>
     <span style="color:red;">{{msg}}</span>
     <form [formGroup]="loginRef" (ngSubmit)="signin()">
-        <label>EmailId</label>
+        <br>
+        <label>Email</label>
         <input type="email" formControlName="emailid"/><br/>
+        <br>
         <label>Password</label>
         <input type="password" formControlName="password"/><br/>
+        <br>
         <label>TypeOfUser</label>
+        <br>
         <input type="radio" formControlName="typeofuser" value="admin"/>Admin
         <input type="radio" formControlName="typeofuser" value="customer"/>Customer<br/>
         <input type="submit" value="SignIn!"/>
