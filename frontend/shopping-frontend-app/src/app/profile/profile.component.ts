@@ -1,13 +1,14 @@
+
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 
 @Component({
-  selector: 'app-customerdashboard',
-  templateUrl: './customerdashboard.component.html',
-  styleUrls: ['./customerdashboard.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
 })
-export class CustomerDashboardComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   emailid: string = "";
   orders: Order[] = [];
 
@@ -32,4 +33,3 @@ export class CustomerDashboardComponent implements OnInit {
     );
   }
 }
-

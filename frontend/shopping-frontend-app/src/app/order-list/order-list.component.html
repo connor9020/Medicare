@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <h2 class="text-center">All Orders</h2>
+    <hr />
+    <div class="mt-4">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Customer ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>{{ order.id }}</td>
+            <td>{{ order.productId }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.totalPrice }}</td>
+            <td>{{ order.customerId }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

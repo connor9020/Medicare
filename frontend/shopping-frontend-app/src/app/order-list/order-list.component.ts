@@ -3,21 +3,16 @@ import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 
 @Component({
-  selector: 'app-customerdashboard',
-  templateUrl: './customerdashboard.component.html',
-  styleUrls: ['./customerdashboard.component.css']
+  selector: 'app-order-list',
+  templateUrl: './order-list.component.html',
+  styleUrls: ['./order-list.component.css']
 })
-export class CustomerDashboardComponent implements OnInit {
-  emailid: string = "";
+export class OrderListComponent implements OnInit {
   orders: Order[] = [];
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) { }
 
   ngOnInit(): void {
-    let obj = sessionStorage.getItem("user");
-    if (obj != null) {
-      this.emailid = obj;
-    }
     this.loadOrders();
   }
 

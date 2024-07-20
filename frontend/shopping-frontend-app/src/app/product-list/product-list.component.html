@@ -1,0 +1,18 @@
+<div class="container mt-4">
+    <h2 class="text-center">Product Store</h2>
+    <hr />
+    <div class="row">
+      <div class="col-md-4" *ngFor="let product of products">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text"><strong>Price:</strong> {{ product.price | currency }}</p>
+            <p class="card-text"><strong>Stock:</strong> {{ product.stock }}</p>
+            <button class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
