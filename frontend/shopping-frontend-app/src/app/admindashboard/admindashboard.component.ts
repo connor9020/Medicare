@@ -4,6 +4,8 @@ import { Product } from '../models/product.model';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { Router } from '@angular/router';
+import { Inventory } from '../models/inventory.model';
+import { InventoryService } from '../services/inventory.service';
 
 @Component({
   selector: 'app-admindashboard',
@@ -15,10 +17,12 @@ export class AdminDashboardComponent implements OnInit {
   updateProduct: Product = new Product();
   products: Product[] = [];
   orders: Order[] = [];
+  inventories: Inventory[] = [];
   isProductManagement: boolean = true;
 
   constructor(
     private productService: ProductService,
+    private inventoryService: InventoryService,
     private orderService: OrderService,
     private router: Router
   ) {}
@@ -26,6 +30,7 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadOrders();
+    this.loadInventories
   }
 
   showProductManagement(): void {
@@ -85,4 +90,14 @@ export class AdminDashboardComponent implements OnInit {
       }
     );
   }
+  loadInventories(): void {
+    this.inventoryService.getInventories().subscribe(
+      response => {
+        this.inventories = response;
+      },
+      error => {
+        console.error('Error fetching inventories:', error);
+      }
+    );
+}
 }
