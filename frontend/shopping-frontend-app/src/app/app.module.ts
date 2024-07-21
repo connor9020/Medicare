@@ -12,6 +12,7 @@ import { AdminDashboardComponent } from './admindashboard/admindashboard.compone
 import { ProductListComponent } from './product-list/product-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProductService } from './services/product.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule, 
     ReactiveFormsModule  
   ],
-  providers: [],
+  providers: [ProductService, ProductListComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

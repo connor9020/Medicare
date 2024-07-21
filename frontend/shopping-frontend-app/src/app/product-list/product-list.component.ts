@@ -13,17 +13,14 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.loadProducts();
-  }
-
-  loadProducts(): void {
-    this.productService.getProducts().subscribe(
-      response => {
-        this.products = response;
+    this.productService.getProducts().subscribe({
+      next: (data: Product[]) => {
+        this.products = data;
       },
-      error => {
-        console.error('Error fetching products:', error);
+      error: (error) => {
+        console.error('Error fetching products', error);
       }
-    );
+    });
   }
 }
+

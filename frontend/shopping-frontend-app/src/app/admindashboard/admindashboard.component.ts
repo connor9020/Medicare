@@ -30,7 +30,7 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadOrders();
-    this.loadInventories
+    this.loadInventories();
   }
 
   showProductManagement(): void {
@@ -46,58 +46,59 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   addProduct(): void {
-    this.productService.addProduct(this.newProduct).subscribe(
-      response => {
+    this.productService.addProduct(this.newProduct).subscribe({
+      next: (response) => {
         console.log('Product added:', response);
         this.loadProducts(); // Refresh the product list
       },
-      error => {
+      error: (error) => {
         console.error('Error adding product:', error);
       }
-    );
+    });
   }
 
   updatePrice(): void {
-    this.productService.updateProduct(this.updateProduct).subscribe(
-      response => {
+    this.productService.updateProduct(this.updateProduct).subscribe({
+      next: (response) => {
         console.log('Product price updated:', response);
         this.loadProducts(); // Refresh the product list
       },
-      error => {
+      error: (error) => {
         console.error('Error updating price:', error);
       }
-    );
+    });
   }
 
   loadProducts(): void {
-    this.productService.getProducts().subscribe(
-      response => {
+    this.productService.getProducts().subscribe({
+      next: (response) => {
         this.products = response;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching products:', error);
       }
-    );
+    });
   }
 
   loadOrders(): void {
-    this.orderService.getOrders().subscribe(
-      response => {
+    this.orderService.getOrders().subscribe({
+      next: (response) => {
         this.orders = response;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching orders:', error);
       }
-    );
+    });
   }
+
   loadInventories(): void {
-    this.inventoryService.getInventories().subscribe(
-      response => {
+    this.inventoryService.getInventories().subscribe({
+      next: (response) => {
         this.inventories = response;
       },
-      error => {
+      error: (error) => {
         console.error('Error fetching inventories:', error);
       }
-    );
-}
+    });
+  }
 }
