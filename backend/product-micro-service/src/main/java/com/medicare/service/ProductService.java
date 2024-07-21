@@ -1,9 +1,9 @@
 package com.medicare.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.medicare.entity.Product;
 import com.medicare.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,21 +26,18 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Optional<Product> updateProduct(Long id, Product productDetails) {
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    public Product updateProductPrice(Long id, Double price) {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
-            product.setName(productDetails.getName());
-            product.setDescription(productDetails.getDescription());
-            product.setPrice(productDetails.getPrice());
-            product.setStock(productDetails.getStock());
-            return Optional.of(productRepository.save(product));
+            product.setPrice(price);
+            return productRepository.save(product);
         } else {
-            return Optional.empty();
+            throw new RuntimeException("Product not found");
         }
-    }
-
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
     }
 }

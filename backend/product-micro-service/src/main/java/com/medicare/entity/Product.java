@@ -4,8 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +16,18 @@ public class Product {
     private String description;
     private double price;
     private int stock;
+    
+    public Product() {
+    	
+    }
+    
+    @Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
+				+ stock + "]";
+	}
 
-    // Getters and Setters
+	// Getters and Setters
     public Long getId() {
         return id;
     }

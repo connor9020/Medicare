@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { Router } from '@angular/router';
-import { Inventory } from '../models/inventory.model';
-import { InventoryService } from '../services/inventory.service';
 
 @Component({
   selector: 'app-admindashboard',
@@ -13,16 +12,17 @@ import { InventoryService } from '../services/inventory.service';
   styleUrls: ['./admindashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+  @ViewChild('addProductForm') addProductForm!: NgForm;
+  @ViewChild('updatePriceForm') updatePriceForm!: NgForm;
+
   newProduct: Product = new Product();
   updateProduct: Product = new Product();
   products: Product[] = [];
   orders: Order[] = [];
-  inventories: Inventory[] = [];
   isProductManagement: boolean = true;
 
   constructor(
     private productService: ProductService,
-    private inventoryService: InventoryService,
     private orderService: OrderService,
     private router: Router
   ) {}
@@ -30,7 +30,6 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadProducts();
     this.loadOrders();
-    this.loadInventories();
   }
 
   showProductManagement(): void {
@@ -50,6 +49,7 @@ export class AdminDashboardComponent implements OnInit {
       next: (response) => {
         console.log('Product added:', response);
         this.loadProducts(); // Refresh the product list
+        this.resetAddProductForm(); // Reset form fields
       },
       error: (error) => {
         console.error('Error adding product:', error);
@@ -62,6 +62,7 @@ export class AdminDashboardComponent implements OnInit {
       next: (response) => {
         console.log('Product price updated:', response);
         this.loadProducts(); // Refresh the product list
+        this.resetUpdatePriceForm(); // Reset form fields
       },
       error: (error) => {
         console.error('Error updating price:', error);
@@ -91,14 +92,17 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  loadInventories(): void {
-    this.inventoryService.getInventories().subscribe({
-      next: (response) => {
-        this.inventories = response;
-      },
-      error: (error) => {
-        console.error('Error fetching inventories:', error);
-      }
-    });
+  resetAddProductForm(): void {
+    this.newProduct = new Product();
+    if (this.addProductForm) {
+      this.addProductForm.reset();
+    }
+  }
+
+  resetUpdatePriceForm(): void {
+    this.updateProduct = new Product();
+    if (this.updatePriceForm) {
+      this.updatePriceForm.reset();
+    }
   }
 }

@@ -38,6 +38,10 @@ public class AdminService {
     public Product getProductById(Long id) {
         return restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, Product.class);
     }
+
+    public Product updateProductPrice(Long id, Double price) {
+        String url = PRODUCT_SERVICE_URL + "/" + id + "/price?price=" + price;
+        restTemplate.put(url, null);
+        return getProductById(id);
+    }
 }
-
-

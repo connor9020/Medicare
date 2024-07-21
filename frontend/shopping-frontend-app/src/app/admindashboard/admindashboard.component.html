@@ -1,3 +1,4 @@
+<!-- src/app/components/admin-dashboard/admin-dashboard.component.html -->
 <div class="container mt-3">
   <h2 class="text-center">Admin Dashboard</h2>
   <hr />
@@ -21,22 +22,22 @@
       <div class="row mt-3">
         <div class="col-md-6">
           <h3>Add Product</h3>
-          <form (ngSubmit)="addProduct()">
+          <form #addProductForm="ngForm" (ngSubmit)="addProduct()">
             <div class="form-group">
               <label for="name">Name:</label>
-              <input type="text" class="form-control" id="name" [(ngModel)]="newProduct.name" name="name">
+              <input type="text" class="form-control" id="name" [(ngModel)]="newProduct.name" name="name" required>
             </div>
             <div class="form-group">
               <label for="description">Description:</label>
-              <input type="text" class="form-control" id="description" [(ngModel)]="newProduct.description" name="description">
+              <input type="text" class="form-control" id="description" [(ngModel)]="newProduct.description" name="description" required>
             </div>
             <div class="form-group">
               <label for="price">Price:</label>
-              <input type="number" class="form-control" id="price" [(ngModel)]="newProduct.price" name="price">
+              <input type="number" class="form-control" id="price" [(ngModel)]="newProduct.price" name="price" required>
             </div>
             <div class="form-group">
               <label for="stock">Stock:</label>
-              <input type="number" class="form-control" id="stock" [(ngModel)]="newProduct.stock" name="stock">
+              <input type="number" class="form-control" id="stock" [(ngModel)]="newProduct.stock" name="stock" required>
             </div>
             <button type="submit" class="btn btn-success mt-2">Add Product</button>
           </form>
@@ -44,14 +45,14 @@
 
         <div class="col-md-6">
           <h3>Update Product Price</h3>
-          <form (ngSubmit)="updatePrice()">
+          <form #updatePriceForm="ngForm" (ngSubmit)="updatePrice()">
             <div class="form-group">
               <label for="productId">Product ID:</label>
-              <input type="number" class="form-control" id="productId" [(ngModel)]="updateProduct.id" name="id">
+              <input type="number" class="form-control" id="productId" [(ngModel)]="updateProduct.id" name="id" required>
             </div>
             <div class="form-group">
               <label for="updatePrice">New Price:</label>
-              <input type="number" class="form-control" id="updatePrice" [(ngModel)]="updateProduct.price" name="price">
+              <input type="number" class="form-control" id="updatePrice" [(ngModel)]="updateProduct.price" name="price" required>
             </div>
             <button type="submit" class="btn btn-warning mt-2">Update Price</button>
           </form>
@@ -108,29 +109,7 @@
         </table>
       </div>
     </div>
-
-    <div class="tab-pane fade" id="inventory" role="tabpanel" aria-labelledby="inventory-tab">
-      <div class="container mt-4">
-        <h3>Inventory List</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Product ID</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let inventory of inventories">
-              <td>{{ inventory.id }}</td>
-              <td>{{ inventory.productId }}</td>
-              <td>{{ inventory.quantity }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </div>
 
-  
+
