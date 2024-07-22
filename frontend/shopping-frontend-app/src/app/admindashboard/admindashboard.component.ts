@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AdminDashboardComponent implements OnInit {
   @ViewChild('addProductForm') addProductForm!: NgForm;
-  @ViewChild('updatePriceForm') updatePriceForm!: NgForm;
+  @ViewChild('updateProductForm') updateProductForm!: NgForm;
 
   newProduct: Product = new Product();
   updateProduct: Product = new Product();
@@ -57,15 +57,15 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  updatePrice(): void {
+  updateProductDetails(): void {
     this.productService.updateProduct(this.updateProduct).subscribe({
       next: (response) => {
-        console.log('Product price updated:', response);
+        console.log('Product updated:', response);
         this.loadProducts(); // Refresh the product list
-        this.resetUpdatePriceForm(); // Reset form fields
+        this.resetUpdateProductForm(); // Reset form fields
       },
       error: (error) => {
-        console.error('Error updating price:', error);
+        console.error('Error updating product:', error);
       }
     });
   }
@@ -92,6 +92,27 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  editProduct(product: Product): void {
+    this.updateProduct = { ...product }; // Copy product to updateProduct
+    // Optionally switch to the product management tab if needed
+  }
+
+  deleteProduct(productId: number): void {
+    this.productService.deleteProduct(productId).subscribe({
+      next: () => {
+        console.log('Product deleted');
+        this.loadProducts(); // Refresh the product list
+      },
+      error: (error) => {
+        console.error('Error deleting product:', error);
+      }
+    });
+  }
+
+  cancelEdit(): void {
+    this.updateProduct = new Product();
+  }
+
   resetAddProductForm(): void {
     this.newProduct = new Product();
     if (this.addProductForm) {
@@ -99,10 +120,11 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  resetUpdatePriceForm(): void {
+  resetUpdateProductForm(): void {
     this.updateProduct = new Product();
-    if (this.updatePriceForm) {
-      this.updatePriceForm.reset();
+    if (this.updateProductForm) {
+      this.updateProductForm.reset();
     }
   }
 }
+

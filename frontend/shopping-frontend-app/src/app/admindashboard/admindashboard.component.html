@@ -10,18 +10,15 @@
       <a class="nav-link active" id="product-tab" data-bs-toggle="tab" href="#product-management" role="tab" aria-controls="product-management" aria-selected="true">Product Management</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="order-tab" data-bs-toggle="tab" href="#order-table" role="tab" aria-controls="order-table" aria-selected="false">Order Table</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="inventory-tab" data-bs-toggle="tab" href="#inventory" role="tab" aria-controls="inventory" aria-selected="false">Inventory</a>
+      <a class="nav-link" id="order-tab" data-bs-toggle="tab" href="#order-table" role="tab" aria-controls="order-table" aria-selected="false">All Orders</a>
     </li>
   </ul>
 
   <div class="tab-content" id="adminTabsContent">
     <div class="tab-pane fade show active" id="product-management" role="tabpanel" aria-labelledby="product-tab">
-      <div class="row mt-3">
+      <div class="row justify-content-center mt-3">
         <div class="col-md-6">
-          <h3>Add Product</h3>
+          <h3 class="text-center">Add Product</h3>
           <form #addProductForm="ngForm" (ngSubmit)="addProduct()">
             <div class="form-group">
               <label for="name">Name:</label>
@@ -42,21 +39,6 @@
             <button type="submit" class="btn btn-success mt-2">Add Product</button>
           </form>
         </div>
-
-        <div class="col-md-6">
-          <h3>Update Product Price</h3>
-          <form #updatePriceForm="ngForm" (ngSubmit)="updatePrice()">
-            <div class="form-group">
-              <label for="productId">Product ID:</label>
-              <input type="number" class="form-control" id="productId" [(ngModel)]="updateProduct.id" name="id" required>
-            </div>
-            <div class="form-group">
-              <label for="updatePrice">New Price:</label>
-              <input type="number" class="form-control" id="updatePrice" [(ngModel)]="updateProduct.price" name="price" required>
-            </div>
-            <button type="submit" class="btn btn-warning mt-2">Update Price</button>
-          </form>
-        </div>
       </div>
 
       <div class="mt-4">
@@ -69,6 +51,7 @@
               <th>Description</th>
               <th>Price</th>
               <th>Stock</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -78,9 +61,37 @@
               <td>{{ product.description }}</td>
               <td>{{ product.price }}</td>
               <td>{{ product.stock }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="editProduct(product)">Edit</button> 
+                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Delete</button>
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div *ngIf="updateProduct.id" class="mt-4">
+        <h3>Edit Product</h3>
+        <form #updateProductForm="ngForm" (ngSubmit)="updateProductDetails()">
+          <div class="form-group">
+            <label for="editName">Name:</label>
+            <input type="text" class="form-control" id="editName" [(ngModel)]="updateProduct.name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="editDescription">Description:</label>
+            <input type="text" class="form-control" id="editDescription" [(ngModel)]="updateProduct.description" name="description" required>
+          </div>
+          <div class="form-group">
+            <label for="editPrice">Price:</label>
+            <input type="number" class="form-control" id="editPrice" [(ngModel)]="updateProduct.price" name="price" required>
+          </div>
+          <div class="form-group">
+            <label for="editStock">Stock:</label>
+            <input type="number" class="form-control" id="editStock" [(ngModel)]="updateProduct.stock" name="stock" required>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Update Product</button>
+          <button type="button" class="btn btn-secondary mt-2" (click)="cancelEdit()">Cancel</button>
+        </form>
       </div>
     </div>
 
@@ -111,5 +122,4 @@
     </div>
   </div>
 </div>
-
 

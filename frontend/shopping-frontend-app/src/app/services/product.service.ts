@@ -7,9 +7,9 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:8080/products'; // Ensure this is correct
+  private apiUrl = 'http://localhost:8080/products';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
@@ -23,7 +23,11 @@ export class ProductService {
     return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product);
   }
 
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteProduct(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${productId}`);
+  }
+
+  searchProducts(name: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/search`, { params: { name } });
   }
 }

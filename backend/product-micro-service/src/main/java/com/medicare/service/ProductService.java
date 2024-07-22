@@ -29,15 +29,9 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
-
-    public Product updateProductPrice(Long id, Double price) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            product.setPrice(price);
-            return productRepository.save(product);
-        } else {
-            throw new RuntimeException("Product not found");
-        }
+    
+    public Product updateProduct(Product product) {
+        return productRepository.save(product);
     }
+
 }

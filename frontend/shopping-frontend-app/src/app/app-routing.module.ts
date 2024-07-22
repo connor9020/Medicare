@@ -7,8 +7,8 @@ import { AdminDashboardComponent } from './admindashboard/admindashboard.compone
 import { ProductListComponent } from './product-list/product-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ProfileComponent } from './profile/profile.component';
-
-// http://localhost:4200/
+import { CartComponent } from './cart/cart.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component'; // Ensure this component exists
 
 const routes: Routes = [
   { path: "", component: LoginComponent },
@@ -17,11 +17,13 @@ const routes: Routes = [
       { path: "", redirectTo: "products", pathMatch: "full" },
       { path: "products", component: ProductListComponent },
       { path: "orders", component: OrderListComponent },
-      { path: "profile", component: ProfileComponent }
+      { path: "profile", component: ProfileComponent },
+      { path: "cart", component: CartComponent } // Added route for customer/cart
     ]
   },
   { path: "admin", component: AdminDashboardComponent },
-  { path: "login", redirectTo: "/", pathMatch: 'full' }
+  { path: "login", redirectTo: "/", pathMatch: 'full' },
+  { path: "**", component: PageNotFoundComponent } // Wildcard route for 404 page
 ];
 
 @NgModule({
@@ -29,4 +31,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-

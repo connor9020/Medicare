@@ -13,6 +13,9 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProductService } from './services/product.service';
+import { CartComponent } from './cart/cart.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -23,13 +26,16 @@ import { ProductService } from './services/product.service';
     AdminDashboardComponent,
     ProductListComponent,
     OrderListComponent,
-    ProfileComponent
+    ProfileComponent,
+    CartComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule, 
+    ModalModule.forRoot(),
     ReactiveFormsModule  
   ],
   providers: [ProductService, ProductListComponent],
