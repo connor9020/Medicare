@@ -10,6 +10,8 @@ import { Order } from '../models/order.model';
 })
 export class ProfileComponent implements OnInit {
   emailid: string = "";
+  name: string = "";
+  phone: string = "";
   orders: Order[] = [];
 
   constructor(private orderService: OrderService) {}

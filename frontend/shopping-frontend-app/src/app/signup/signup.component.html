@@ -2,11 +2,15 @@
     <h2>Account Create</h2>
     <span style="color:red">{{msg}}</span>
     <form #loginRef="ngForm" (ngSubmit)="signup(loginRef)">
-        <label>EmailId</label>
+        <label>Email</label><br/>
         <input type="email" name="emailid" ngModel/><br/>
-        <label>Password</label>
+        <label>Password</label><br/>
         <input type="password" name="password" ngModel/><br/>
-        <label>TypeOfUser</label>
+        <label>Name</label><br/>
+        <input type="name" name="name" ngModel/><br/>
+        <label>Phone Number</label><br/>
+        <input type="phone" name="phone" ngModel/><br/>
+        <br>
         <input type="radio" name="typeofuser" value="admin" ngModel/>Admin
         <input type="radio" name="typeofuser" value="customer" ngModel/>Customer<br/>
         <input type="submit" value="SignUp!"/>

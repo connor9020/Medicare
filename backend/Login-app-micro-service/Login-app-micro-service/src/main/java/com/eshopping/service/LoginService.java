@@ -17,7 +17,7 @@ public class LoginService {
     LoginRepository loginRepository;
     
     public String signUp(Login login) {
-        if(loginRepository.existsById(login.getEmailid())) {
+        if(loginRepository.existsByEmailid(login.getEmailid())) {
             return "Emailid must be unique";
         } else if(login.getTypeofuser().equals("admin")) {
             return "You can't create admin account";
@@ -28,7 +28,7 @@ public class LoginService {
     }
     
     public String signIn(Login login) {
-        Optional<Login> result = loginRepository.findById(login.getEmailid());
+        Optional<Login> result = loginRepository.findByEmailid(login.getEmailid());
         if(result.isPresent()) {
             Login ll = result.get();
             logger.info("Found user with email: {}", login.getEmailid());
@@ -53,4 +53,3 @@ public class LoginService {
     }
     
 }
-

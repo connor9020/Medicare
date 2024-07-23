@@ -3,8 +3,8 @@ package com.medicare.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.medicare.entity.Order;
+import com.medicare.entity.Product;
 import com.medicare.repository.OrderRepository;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +13,16 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private ProductService productService;
 
     public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+    	Product product = productService.updateProductStock(order.getProductId(), order.getQuantity());
+    	if(product != null) {
+        	return orderRepository.save(order);
+    	}
+    	return null;
     }
 
     public List<Order> getAllOrders() {

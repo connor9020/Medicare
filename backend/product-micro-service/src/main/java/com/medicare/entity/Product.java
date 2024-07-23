@@ -67,6 +67,10 @@ public class Product {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+	
+	public void setStockFromPurchase(int quantity) {
+		this.stock -= stock;
+	}
     
     
 }
