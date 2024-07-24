@@ -1,36 +1,24 @@
-<div class="row mt-4">
-    <div class="col-md-4">
-      <h3>Customer Information</h3>
-      <div class="card">
-        <div class="card-body">
-          <p><strong>Email:</strong> {{emailid}}</p>
-          <p><strong>Name:</strong> {{name}}</p>
-          <p><strong>Phone:</strong> {{phone}}</p>
-          <!-- Add more customer information here if needed -->
-        </div>
-      </div>
+<div class="container mt-4">
+  <h2 class="text-center">Profile</h2>
+  <hr />
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Profile Information</h5>
+      <p class="card-text"><strong>Name:</strong> {{ name }}</p>
+      <p class="card-text"><strong>Email:</strong> {{ email }}</p>
+      <p class="card-text"><strong>Phone:</strong> {{ phone }}</p>
     </div>
-    <div class="col-md-8">
-      <h3>Recent Orders</h3>
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of orders">
-                <td>{{ order.id }}</td>
-                <td>{{ order.productId }}</td>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.totalPrice }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  </div>
+  
+  <h3 class="text-center">Order History</h3>
+  <hr />
+  <div class="card mb-4" *ngFor="let order of orders">
+    <div class="card-body">
+      <h5 class="card-title">Order ID: {{ order.id }}</h5>
+      <p class="card-text"><strong>Product ID:</strong> {{ order.productId }}</p>
+      <p class="card-text"><strong>Quantity:</strong> {{ order.quantity }}</p>
+      <!-- Add other order details as needed -->
+    </div>
+  </div>
+</div>
+

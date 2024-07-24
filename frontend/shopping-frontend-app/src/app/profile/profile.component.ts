@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
@@ -9,7 +8,7 @@ import { Order } from '../models/order.model';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  emailid: string = "";
+  email: string = "";
   name: string = "";
   phone: string = "";
   orders: Order[] = [];
@@ -18,8 +17,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let obj = sessionStorage.getItem("user");
+    console.log("User data from session storage:", obj);
     if (obj != null) {
-      this.emailid = obj;
+      try {
+        let user = JSON.parse(obj);
+        console.log("Parsed user data:", user);
+        this.email = user.emailid;
+        this.name = user.name;
+        this.phone = user.phone;
+      } catch (e) {
+        console.error("Error parsing user data from session storage", e);
+      }
     }
     this.loadOrders();
   }
@@ -28,6 +36,7 @@ export class ProfileComponent implements OnInit {
     this.orderService.getOrders().subscribe(
       response => {
         this.orders = response;
+        console.log("Fetched orders:", this.orders);
       },
       error => {
         console.error('Error fetching orders:', error);

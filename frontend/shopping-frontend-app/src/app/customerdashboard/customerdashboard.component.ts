@@ -1,30 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { ProductService } from '../services/product.service';
+import { CustomerService } from '../services/customer.service';
 import { Order } from '../models/order.model';
 import { Product } from '../models/product.model';
+import { Customer } from '../models/customer.model';
 
 @Component({
-  selector: 'app-customerdashboard',
+  selector: 'app-customer-dashboard',
   templateUrl: './customerdashboard.component.html',
   styleUrls: ['./customerdashboard.component.css']
 })
 export class CustomerDashboardComponent implements OnInit {
   emailid: string = "";
+  customer: Customer | null = null; // Define the customer property
   orders: Order[] = [];
   products: Product[] = [];
   cart: { product: Product, quantity: number }[] = [];
 
-  constructor(private orderService: OrderService, private productService: ProductService) {}
+  constructor(
+    private orderService: OrderService,
+    private productService: ProductService,
+    private customerService: CustomerService
+  ) {}
 
   ngOnInit(): void {
     let obj = sessionStorage.getItem("user");
     if (obj != null) {
-      this.emailid = obj;
+      let user = JSON.parse(obj); // Parse the JSON object
+      this.emailid = user.emailid;
     }
     this.loadOrders();
     this.loadProducts();
+    //this.loadCustomer(); // Call the loadCustomer method
   }
+/*
+  loadCustomer(): void {
+    this.customerService.getCustomerByEmail(this.emailid).subscribe(
+      response => {
+        this.customer = response;
+        console.log("Fetched customer:", this.customer);
+      },
+      error => {
+        console.error('Error fetching customer:', error);
+      }
+    );
+  }*/
 
   loadOrders(): void {
     this.orderService.getOrders().subscribe(
@@ -76,4 +97,3 @@ export class CustomerDashboardComponent implements OnInit {
     console.log('Checkout', this.cart);
   }
 }
-

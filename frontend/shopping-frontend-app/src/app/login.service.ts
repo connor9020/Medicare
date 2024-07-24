@@ -20,7 +20,7 @@ export class LoginService {
       
   // }
 
-  signIn(login:any): Observable<string> {
+  signIn(login:any): Observable<any> {
     return this.http.post(this.baseUrl+"/signin",login,{responseType:'text'});
   }
 

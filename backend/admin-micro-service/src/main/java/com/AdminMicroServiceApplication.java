@@ -8,10 +8,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class AdminMicroServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AdminMicroServiceApplication.class, args);
-        System.err.println("Admin microservice up on port number 8083");
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(AdminMicroServiceApplication.class, args);
+		System.err.println("Admin microservice up on port number 8083");
+	}
 
 }
-

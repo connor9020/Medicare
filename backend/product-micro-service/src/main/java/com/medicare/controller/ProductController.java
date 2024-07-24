@@ -11,32 +11,32 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+	@Autowired
+	private ProductService productService;
 
-    @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
-    }
+	@PostMapping
+	public Product createProduct(@RequestBody Product product) {
+		return productService.saveProduct(product);
+	}
 
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
+	@GetMapping
+	public List<Product> getAllProducts() {
+		return productService.getAllProducts();
+	}
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
-    }
+	@GetMapping("/{id}")
+	public Product getProductById(@PathVariable Long id) {
+		return productService.getProductById(id);
+	}
 
-    @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-    }
+	@DeleteMapping("/{id}")
+	public void deleteProduct(@PathVariable Long id) {
+		productService.deleteProduct(id);
+	}
 
-    @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        product.setId(id);
-        return productService.updateProduct(product);
-    }
+	@PutMapping("/{id}")
+	public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+		product.setId(id);
+		return productService.updateProduct(product);
+	}
 }

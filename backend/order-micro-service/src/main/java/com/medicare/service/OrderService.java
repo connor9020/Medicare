@@ -11,29 +11,29 @@ import java.util.Optional;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
-    
-    @Autowired
-    private ProductService productService;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    public Order saveOrder(Order order) {
-    	Product product = productService.updateProductStock(order.getProductId(), order.getQuantity());
-    	if(product != null) {
-        	return orderRepository.save(order);
-    	}
-    	return null;
-    }
+	@Autowired
+	private ProductService productService;
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
+	public Order saveOrder(Order order) {
+		Product product = productService.updateProductStock(order.getProductId(), order.getQuantity());
+		if (product != null) {
+			return orderRepository.save(order);
+		}
+		return null;
+	}
 
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
-    }
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
+	}
 
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
-    }
+	public Optional<Order> getOrderById(Long id) {
+		return orderRepository.findById(id);
+	}
+
+	public void deleteOrder(Long id) {
+		orderRepository.deleteById(id);
+	}
 }

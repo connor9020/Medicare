@@ -10,33 +10,33 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
-    }
+	public Product saveProduct(Product product) {
+		return productRepository.save(product);
+	}
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+	public List<Product> getAllProducts() {
+		return productRepository.findAll();
+	}
 
-    public Product getProductById(Long id) {
-        return productRepository.getReferenceById(id);
-    }
+	public Product getProductById(Long id) {
+		return productRepository.getReferenceById(id);
+	}
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
-    
-    public Product updateProduct(Product product) {
-        return productRepository.save(product);
-    }
-    
+	public void deleteProduct(Long id) {
+		productRepository.deleteById(id);
+	}
+
+	public Product updateProduct(Product product) {
+		return productRepository.save(product);
+	}
+
 	public Product updateProductStock(Long productId, int quantity) {
 		Product product = getProductById(productId);
 		product.setStockFromPurchase(quantity);
-        return updateProduct(product);
-    }
+		return updateProduct(product);
+	}
 
 }

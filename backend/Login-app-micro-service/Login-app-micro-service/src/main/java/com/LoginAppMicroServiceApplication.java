@@ -20,27 +20,27 @@ import jakarta.annotation.PostConstruct;
 @EnableDiscoveryClient(autoRegister = true)
 public class LoginAppMicroServiceApplication {
 
-    @Autowired
-    LoginRepository loginRepository;
-    
-    @PostConstruct
-    public void init() {
-        // Use custom repository method to find by emailid
-        Optional<Login> result = loginRepository.findByEmailid("admin@gmail.com");
-        if (result.isPresent()) {
-            System.err.println("Admin account already present");
-        } else {
-            Login ll = new Login();
-            ll.setEmailid("admin@gmail.com");
-            ll.setPassword("admin@123");
-            ll.setTypeofuser("admin");
-            loginRepository.save(ll);
-            System.err.println("Admin account created..");
-        }
-    }
-    
-    public static void main(String[] args) {
-        SpringApplication.run(LoginAppMicroServiceApplication.class, args);
-        System.err.println("Login micro service up on port number 8181");
-    }
+	@Autowired
+	LoginRepository loginRepository;
+
+	@PostConstruct
+	public void init() {
+		// Use custom repository method to find by emailid
+		Optional<Login> result = loginRepository.findByEmailid("admin@gmail.com");
+		if (result.isPresent()) {
+			System.err.println("Admin account already present");
+		} else {
+			Login ll = new Login();
+			ll.setEmailid("admin@gmail.com");
+			ll.setPassword("admin@123");
+			ll.setTypeofuser("admin");
+			loginRepository.save(ll);
+			System.err.println("Admin account created..");
+		}
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(LoginAppMicroServiceApplication.class, args);
+		System.err.println("Login micro service up on port number 8181");
+	}
 }
