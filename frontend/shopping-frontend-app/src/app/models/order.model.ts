@@ -4,5 +4,6 @@ export class Order {
     totalPrice: number = 0;
     customerId: number = 0;
     productId: number = 0;
+    orderDate: string = "";
   }
   

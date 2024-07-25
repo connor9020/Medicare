@@ -30,4 +30,12 @@ export class ProductService {
   searchProducts(name: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/search`, { params: { name } });
   }
+
+  updateStockAndLogOrder(purchases: any[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/update-stock-log-order`,  purchases );
+  }
+
+  getProductById(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${productId}`);
+  }
 }

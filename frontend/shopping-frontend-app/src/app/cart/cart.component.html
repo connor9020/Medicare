@@ -15,6 +15,7 @@
   </div>
   <div *ngIf="cartItems.length > 0" class="text-right">
     <h4>Total Order Cost: {{ getTotalOrderCost() | currency }}</h4>
+    <button class="btn btn-success" (click)="purchase()">Purchase</button>
   </div>
   <p *ngIf="cartItems.length === 0">Your cart is empty.</p>
 </div>

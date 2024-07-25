@@ -6,10 +6,10 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Product ID</th>
-            <th>Quantity</th>
+            <th>Product ID(s)</th>
+            <th>Quantity(s)</th>
+            <th>Order Date</th>
             <th>Total Price</th>
-            <th>Customer ID</th>
           </tr>
         </thead>
         <tbody>
@@ -17,8 +17,8 @@
             <td>{{ order.id }}</td>
             <td>{{ order.productId }}</td>
             <td>{{ order.quantity }}</td>
+            <td>{{ formatOrderDate(order.orderDate) }}</td>
             <td>{{ order.totalPrice }}</td>
-            <td>{{ order.customerId }}</td>
           </tr>
         </tbody>
       </table>

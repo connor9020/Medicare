@@ -1,5 +1,9 @@
 package com.medicare.entity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,16 +20,24 @@ public class Order {
 	private Long productId;
 	private int quantity;
 	private double totalPrice;
+	
+	@Column(name = "order_date", columnDefinition = "TIMESTAMP")
+	private LocalDateTime orderDate;
 
 	public Order() {
 		// TODO Auto-generated constructor stub
+		this.orderDate = LocalDateTime.now();
 	}
+
+
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", customerId=" + customerId + ", productId=" + productId + ", quantity=" + quantity
-				+ ", totalPrice=" + totalPrice + "]";
+				+ ", totalPrice=" + totalPrice + ", orderDate=" + orderDate + "]";
 	}
+
+
 
 	// Getters and Setters
 	public Long getId() {
@@ -67,4 +79,21 @@ public class Order {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
+
+
+	public LocalDateTime getOrderDate() {
+		return orderDate;
+	}
+
+
+
+	public void setOrderDate(LocalDateTime orderDate) {
+		this.orderDate = orderDate;
+	}
+	
+    public String getFormattedOrderDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        return orderDate.format(formatter);
+    }
 }

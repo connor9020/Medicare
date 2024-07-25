@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.medicare.entity.Product;
 import com.medicare.service.ProductService;
-
+import com.medicare.entity.StockUpdateRequest;
 import java.util.List;
 
 @RestController
@@ -39,4 +39,16 @@ public class ProductController {
 		product.setId(id);
 		return productService.updateProduct(product);
 	}
+	
+    @PostMapping("/update-stock-log-order")
+    public void updateStockAndLogOrder(@RequestBody List<StockUpdateRequest> requests) {
+        requests.forEach(request -> 
+            productService.updateStockAndLogOrder(
+                request.getProductId(),
+                request.getCustomerId(),
+                request.getQuantity(),
+                request.getTotalPrice()
+            )
+        );
+    }
 }

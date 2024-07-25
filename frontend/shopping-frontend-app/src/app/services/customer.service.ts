@@ -21,7 +21,7 @@ export class CustomerService {
   }
 /*
   getCustomerByEmail(emailid: string): Observable<Customer> {
-    return this.http.get<Customer>(`/customer/profile/${emailid}`);
+    return this.http.get<Customer>(`/customer/email/${emailid}`);
   }*/
 
   createCustomer(customer: Customer): Observable<Customer> {
