@@ -13,39 +13,47 @@ import java.util.Optional;
 @RequestMapping("/orders")
 public class OrderController {
 
-	@Autowired
-	private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-	// Create a new order
-	@PostMapping
-	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-		Order createdOrder = orderService.saveOrder(order);
-		return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
-	}
+    // Create a new order
+    @PostMapping
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order createdOrder = orderService.saveOrder(order);
+        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+    }
 
-	// Get all orders
-	@GetMapping
-	public ResponseEntity<List<Order>> getAllOrders() {
-		List<Order> orders = orderService.getAllOrders();
-		return new ResponseEntity<>(orders, HttpStatus.OK);
-	}
+    // Get all orders
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
 
-	// Get an order by ID
-	@GetMapping("/{id}")
-	public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-		Optional<Order> order = orderService.getOrderById(id);
-		return order.isPresent() ? new ResponseEntity<>(order.get(), HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
+    // Get an order by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        Optional<Order> order = orderService.getOrderById(id);
+        return order.isPresent() ? new ResponseEntity<>(order.get(), HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
-	// Delete an order by ID
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-		if (orderService.getOrderById(id).isPresent()) {
-			orderService.deleteOrder(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+    // Get orders by customer ID -- customers only see their orders
+    @GetMapping("/customer")
+    public ResponseEntity<List<Order>> getOrdersByCustomerId(@RequestParam("customerId")Long customerId) {
+        List<Order> orders = orderService.getOrdersByCustomerId(customerId);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    // Delete an order by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        if (orderService.getOrderById(id).isPresent()) {
+            orderService.deleteOrder(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
+

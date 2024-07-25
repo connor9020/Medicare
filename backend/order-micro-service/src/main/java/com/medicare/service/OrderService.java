@@ -38,4 +38,8 @@ public class OrderService {
             .collect(Collectors.toList());
     }
     
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+        return orderRepository.findByCustomerId(customerId);
+    }
+    
 }

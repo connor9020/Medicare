@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Order } from '../models/order.model';
 
@@ -11,10 +11,6 @@ export class OrderService {
   private baseUrl = 'http://localhost:8081/orders'; // Adjust the port as per your microservice setup
 
   constructor(private http: HttpClient) { }
-
-  getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}`);
-  }
 
   getOrder(id: number): Observable<Order> {
     return this.http.get<Order>(`${this.baseUrl}/${id}`);
@@ -30,6 +26,14 @@ export class OrderService {
 
   deleteOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getOrders(customerId?: number): Observable<Order[]> {
+    let params = new HttpParams();
+    if (customerId) {
+      params = params.set('customerId', customerId.toString());
+    }
+    return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
   }
 }
 

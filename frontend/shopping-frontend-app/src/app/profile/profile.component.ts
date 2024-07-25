@@ -1,9 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
-import { ProductService } from '../services/product.service';
 import { Order } from '../models/order.model';
-import { Product } from '../models/product.model';
+import { ProductService } from '../services/product.service'; // Import ProductService
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -16,11 +14,14 @@ export class ProfileComponent implements OnInit {
   emailid: string = "";
   name: string = "";
   phone: string = "";
-  orders: (Order & { productName?: string })[] = [];
+  customerId!: number; // defintite assignment assertion for cid per session
+  orders: (Order & { productName?: string })[] = []; // Extend Order with productName
 
-  constructor(private orderService: OrderService, 
+  constructor(
+    private orderService: OrderService,
     private productService: ProductService,
-    private datePipe: DatePipe) {}
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit(): void {
     const userString = sessionStorage.getItem("user");
@@ -29,34 +30,40 @@ export class ProfileComponent implements OnInit {
       this.emailid = user.emailid;
       this.name = user.name;
       this.phone = user.phone;
+      this.customerId = user.cid; // Get customer ID from user object
+      this.loadOrders(); // ensure customerId is set from sessionstorage
+    } else {
+      console.error("No user is logged in");
     }
-    this.loadOrders();
   }
 
   loadOrders(): void {
-    this.orderService.getOrders().subscribe(
-      async response => {
-        this.orders = await Promise.all(
-          response.sort((a, b) => b.id - a.id).map(async order => {
-            try {
-              const product = await this.productService.getProductById(order.productId).toPromise();
-              return { ...order, productName: product ? product.name : 'Unknown Product' };
-            } catch (error) {
-              console.error(`Error fetching product details for productId: ${order.productId}`, error);
-              return { ...order, productName: 'Unknown Product' };
-            }
-          })
-        );
-      },
-      error => {
-        console.error('Error fetching orders:', error);
-      }
-    );
+    if (this.customerId) {
+      this.orderService.getOrders(this.customerId).subscribe(
+        async response => {
+          this.orders = await Promise.all(
+            response.sort((a, b) => b.id - a.id).map(async order => {
+              try {
+                const product = await this.productService.getProductById(order.productId).toPromise();
+                return { ...order, productName: product ? product.name : 'Unknown Product' };
+              } catch (error) {
+                console.error(`Error fetching product details for productId: ${order.productId}`, error);
+                return { ...order, productName: 'Unknown Product' };
+              }
+            })
+          );
+        },
+        error => {
+          console.error('Error fetching orders:', error);
+        }
+      );
+    } else {
+      console.error('Customer ID is not set');
+    }
   }
 
   formatOrderDate(orderDate: string): string {
     const formattedDate = this.datePipe.transform(orderDate, 'MM-dd-yyyy HH:mm');
     return formattedDate ? formattedDate : orderDate;
   }
-  
 }
