@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { ProductService } from '../services/product.service'; // Import ProductService
@@ -14,7 +15,7 @@ export class ProfileComponent implements OnInit {
   emailid: string = "";
   name: string = "";
   phone: string = "";
-  customerId!: number; // defintite assignment assertion for cid per session
+  Cid!: number; // defintite assignment assertion for cid per session
   orders: (Order & { productName?: string })[] = []; // Extend Order with productName
 
   constructor(
@@ -27,22 +28,27 @@ export class ProfileComponent implements OnInit {
     const userString = sessionStorage.getItem("user");
     if (userString) {
       const user = JSON.parse(userString);
+      console.log('User object:', user); // Log the user object to check its structure
       this.emailid = user.emailid;
       this.name = user.name;
       this.phone = user.phone;
-      this.customerId = user.cid; // Get customer ID from user object
-      this.loadOrders(); // ensure customerId is set from sessionstorage
+      this.Cid = user.cid; // Get customer ID from user object
+      this.loadOrders(); // Ensure Cid is set from sessionStorage
     } else {
       console.error("No user is logged in");
     }
   }
+  
 
   loadOrders(): void {
-    if (this.customerId) {
-      this.orderService.getOrders(this.customerId).subscribe(
+    if (this.Cid) {
+      this.orderService.getOrders(this.Cid).subscribe(
         async response => {
           this.orders = await Promise.all(
-            response.sort((a, b) => b.id - a.id).map(async order => {
+            response
+            .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
+            .slice(0, 5) // limits orders on profile page to 5
+            .map(async order => {
               try {
                 const product = await this.productService.getProductById(order.productId).toPromise();
                 return { ...order, productName: product ? product.name : 'Unknown Product' };

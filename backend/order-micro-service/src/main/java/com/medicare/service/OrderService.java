@@ -16,7 +16,10 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public Order saveOrder(Order order) {
-        // Save the order in the OrderRepository
+        // Ensure customer_id is set correctly before saving
+        if (order.getCid() == null) {
+            throw new IllegalArgumentException("Customer ID must not be null");
+        }
         return orderRepository.save(order);
     }
 
@@ -38,8 +41,8 @@ public class OrderService {
             .collect(Collectors.toList());
     }
     
-    public List<Order> getOrdersByCustomerId(Long customerId) {
-        return orderRepository.findByCustomerId(customerId);
+    public List<Order> getOrdersByCid(Long Cid) {
+        return orderRepository.findByCid(Cid);
     }
     
 }

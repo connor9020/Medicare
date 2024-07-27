@@ -16,7 +16,7 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long customerId;
+	private Long cid;
 	private Long productId;
 	private int quantity;
 	private double totalPrice;
@@ -33,7 +33,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customerId=" + customerId + ", productId=" + productId + ", quantity=" + quantity
+		return "Order [id=" + id + ", cid=" + cid + ", productId=" + productId + ", quantity=" + quantity
 				+ ", totalPrice=" + totalPrice + ", orderDate=" + orderDate + "]";
 	}
 
@@ -48,12 +48,12 @@ public class Order {
 		this.id = id;
 	}
 
-	public Long getCustomerId() {
-		return customerId;
+	public Long getCid() {
+		return cid;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCid(Long Cid) {
+		this.cid = Cid;
 	}
 
 	public Long getProductId() {

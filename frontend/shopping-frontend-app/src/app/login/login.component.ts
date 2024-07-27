@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { LoginService } from '../login.service';
+import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,28 +16,30 @@ export class LoginComponent {
   });
   msg: string = "";
 
-  constructor(public ls: LoginService, public router: Router) {}  // DI for service layer.
+  constructor(public ls: LoginService, public router: Router) {}
 
   signin(): void {
     let login = this.loginRef.value;
-    console.log(login);   // in the form of JSON 
+    console.log(login);
 
     this.ls.signIn(login).subscribe({
       next: (result: any) => {
-        this.msg = result;
-        //const user = result.user;
-        if (this.msg == "Admin login successfully") {
-          this.router.navigate(["admin"], { skipLocationChange: true });
-        } else if (this.msg == "Customer login successfully") {
-          // Store the entire login object as JSON in session storage
-          sessionStorage.setItem("user", JSON.stringify(login));  
-          this.router.navigate(["customer"], { skipLocationChange: true });
+        console.log(result);
+        this.msg = result.message;
+        if (this.msg === "Admin login successfully" || this.msg === "Customer login successfully") {
+          sessionStorage.setItem("user", JSON.stringify(result));
+          if (this.msg === "Admin login successfully") {
+            this.router.navigate(["admin"], { skipLocationChange: true });
+          } else if (this.msg === "Customer login successfully") {
+            this.router.navigate(["customer"], { skipLocationChange: true });
+          }
         } else {
-          // Handle other cases
+          this.msg = result.message || "Login failed. Please check your credentials.";
         }
       },
       error: (error: any) => {
         console.log(error);
+        this.msg = "An error occurred during login. Please try again.";
       },
       complete: () => console.log("signin done!")
     });

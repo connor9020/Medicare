@@ -19,6 +19,9 @@ public class OrderController {
     // Create a new order
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        if (order.getCid() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Order createdOrder = orderService.saveOrder(order);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
@@ -40,8 +43,8 @@ public class OrderController {
 
     // Get orders by customer ID -- customers only see their orders
     @GetMapping("/customer")
-    public ResponseEntity<List<Order>> getOrdersByCustomerId(@RequestParam("customerId")Long customerId) {
-        List<Order> orders = orderService.getOrdersByCustomerId(customerId);
+    public ResponseEntity<List<Order>> getOrdersByCid(@RequestParam("Cid")Long Cid) {
+        List<Order> orders = orderService.getOrdersByCid(Cid);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

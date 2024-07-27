@@ -28,11 +28,16 @@ export class OrderService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  getOrders(customerId?: number): Observable<Order[]> {
+  getOrders(Cid?: number): Observable<Order[]> {
     let params = new HttpParams();
-    if (customerId) {
-      params = params.set('customerId', customerId.toString());
+    if (Cid) {
+      params = params.set('Cid', Cid.toString());
     }
+    return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
+  }
+
+  getOrdersByCid(Cid: number): Observable<Order[]> {
+    const params = new HttpParams().set('Cid', Cid.toString());
     return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
   }
 }
