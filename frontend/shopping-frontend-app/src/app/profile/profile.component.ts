@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { ProductService } from '../services/product.service'; // Import ProductService
@@ -21,7 +21,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private productService: ProductService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router // logout button
   ) {}
 
   ngOnInit(): void {
@@ -71,5 +72,11 @@ export class ProfileComponent implements OnInit {
   formatOrderDate(orderDate: string): string {
     const formattedDate = this.datePipe.transform(orderDate, 'MM-dd-yyyy HH:mm');
     return formattedDate ? formattedDate : orderDate;
+  }
+
+  // Implement logout method
+  logout(): void {
+    sessionStorage.removeItem("user"); // Clear session storage
+    this.router.navigate(['/login']); // Redirect to login page
   }
 }

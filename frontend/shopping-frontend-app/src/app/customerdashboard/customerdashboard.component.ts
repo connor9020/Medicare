@@ -12,6 +12,7 @@ import { Customer } from '../models/customer.model';
   styleUrls: ['./customerdashboard.component.css']
 })
 export class CustomerDashboardComponent implements OnInit {
+  Cid!: number;
   emailid: string = "";
   customer: Customer | null = null; // Define the customer property
   orders: Order[] = [];
@@ -25,37 +26,42 @@ export class CustomerDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let obj = sessionStorage.getItem("user");
-    if (obj != null) {
-      let user = JSON.parse(obj); // Parse the JSON object
-      this.emailid = user.emailid;
+    const userString = sessionStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
+      console.log('User object:', user); // Log the user object to check its structure
+      this.Cid = user.cid; // Get customer ID from user object
+      this.loadOrders(); // Ensure Cid is set from sessionStorage
+    } else {
+      console.error("No user is logged in");
     }
-    this.loadOrders();
-    this.loadProducts();
-    //this.loadCustomer(); // Call the loadCustomer method
   }
-/*
-  loadCustomer(): void {
-    this.customerService.getCustomerByEmail(this.emailid).subscribe(
-      response => {
-        this.customer = response;
-        console.log("Fetched customer:", this.customer);
-      },
-      error => {
-        console.error('Error fetching customer:', error);
-      }
-    );
-  }*/
 
   loadOrders(): void {
-    this.orderService.getOrders().subscribe(
-      response => {
-        this.orders = response;
-      },
-      error => {
-        console.error('Error fetching orders:', error);
-      }
-    );
+    if (this.Cid) {
+      this.orderService.getOrders(this.Cid).subscribe(
+        async response => {
+          this.orders = await Promise.all(
+            response
+              .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
+              .map(async order => {
+                try {
+                  const product = await this.productService.getProductById(order.productId).toPromise();
+                  return { ...order, productName: product ? product.name : 'Unknown Product' };
+                } catch (error) {
+                  console.error(`Error fetching product details for productId: ${order.productId}`, error);
+                  return { ...order, productName: 'Unknown Product' };
+                }
+              })
+          );
+        },
+        error => {
+          console.error('Error fetching orders:', error);
+        }
+      );
+    } else {
+      console.error('Customer ID is not set');
+    }
   }
 
   loadProducts(): void {

@@ -45,7 +45,7 @@ public class ProductController {
         requests.forEach(request -> 
             productService.updateStockAndLogOrder(
                 request.getProductId(),
-                request.getCustomerId(),
+                request.getCid(),
                 request.getQuantity(),
                 request.getTotalPrice()
             )

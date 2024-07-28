@@ -2,13 +2,13 @@ package com.medicare.entity;
 
 public class OrderRequest {
     private Long productId;
-    private Long customerId;
+    private Long Cid;
     private int quantity;
     private double totalPrice;
 
-    public OrderRequest(Long productId, Long customerId, int quantity, double totalPrice) {
+    public OrderRequest(Long productId, Long Cid, int quantity, double totalPrice) {
         this.productId = productId;
-        this.customerId = customerId;
+        this.Cid = Cid;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
@@ -22,12 +22,12 @@ public class OrderRequest {
         this.productId = productId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getCid() {
+        return Cid;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCid(Long Cid) {
+        this.Cid = Cid;
     }
 
     public int getQuantity() {

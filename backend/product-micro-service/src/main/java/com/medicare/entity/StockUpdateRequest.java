@@ -2,7 +2,7 @@ package com.medicare.entity;
 
 public class StockUpdateRequest {
     private Long productId;
-    private Long customerId;
+    private Long cid;
     private int quantity;
     private double totalPrice;
 
@@ -15,12 +15,12 @@ public class StockUpdateRequest {
         this.productId = productId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getCid() {
+        return cid;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCid(Long Cid) {
+        this.cid = Cid;
     }
 
     public int getQuantity() {

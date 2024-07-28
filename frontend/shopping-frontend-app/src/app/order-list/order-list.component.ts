@@ -24,7 +24,15 @@ export class OrderListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadOrders();
+    const userString = sessionStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
+      console.log('User object:', user); // Log the user object to check its structure
+      this.Cid = user.cid; // Get customer ID from user object
+      this.loadOrders(); // Ensure Cid is set from sessionStorage
+    } else {
+      console.error("No user is logged in");
+    }
   }
 
   loadOrders(): void {
@@ -34,7 +42,6 @@ export class OrderListComponent implements OnInit {
           this.orders = await Promise.all(
             response
             .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
-            .slice(0, 5) // limits orders on profile page to 5
             .map(async order => {
               try {
                 const product = await this.productService.getProductById(order.productId).toPromise();

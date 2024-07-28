@@ -43,8 +43,9 @@ public class OrderController {
 
     // Get orders by customer ID -- customers only see their orders
     @GetMapping("/customer")
-    public ResponseEntity<List<Order>> getOrdersByCid(@RequestParam("Cid")Long Cid) {
-        List<Order> orders = orderService.getOrdersByCid(Cid);
+    public ResponseEntity<List<Order>> getOrdersByCid(@RequestParam("Cid") Long cid) {
+        System.out.println("Fetching orders for Cid: " + cid); // Debugging log
+        List<Order> orders = orderService.getOrdersByCid(cid);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 

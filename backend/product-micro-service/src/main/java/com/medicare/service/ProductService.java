@@ -42,7 +42,7 @@ public class ProductService {
     }
 
     //additional checks
-    public void updateStockAndLogOrder(Long productId, Long customerId, int quantity, double totalPrice) {
+    public void updateStockAndLogOrder(Long productId, Long cid, int quantity, double totalPrice) {
         System.out.println("Processing productId: " + productId);
         if (productId == null) {
             throw new IllegalArgumentException("Product ID must not be null");
@@ -64,7 +64,7 @@ public class ProductService {
         System.out.println("Updated stock: " + product.getStock());
 
         // Creates and sends the order request to the OrderService
-        OrderRequest orderRequest = new OrderRequest(productId, customerId, quantity, totalPrice);
+        OrderRequest orderRequest = new OrderRequest(productId, cid, quantity, totalPrice);
         restTemplate.postForObject(ORDER_SERVICE_URL, orderRequest, OrderRequest.class);
 
         System.out.println("Order request sent: " + orderRequest);

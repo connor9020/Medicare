@@ -16,6 +16,7 @@ public class Login {
 	private String typeofuser;
 	private String name;
 	private String phone;
+	private Double balance;
 
 	public String getEmailid() {
 		return emailid;
@@ -63,6 +64,14 @@ public class Login {
 
 	public void setCid(int cid) {
 		this.cid = cid;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 	
 	

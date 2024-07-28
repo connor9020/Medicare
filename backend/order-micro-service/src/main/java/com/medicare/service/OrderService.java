@@ -41,8 +41,8 @@ public class OrderService {
             .collect(Collectors.toList());
     }
     
-    public List<Order> getOrdersByCid(Long Cid) {
-        return orderRepository.findByCid(Cid);
+    public List<Order> getOrdersByCid(Long cid) {
+        return orderRepository.findByCid(cid);
     }
     
 }

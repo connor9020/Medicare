@@ -10,11 +10,19 @@ import { CartItem } from '../models/cart-item.model';
 })
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
-  customerId: number = 1; // Assume a logged-in customer ID, replace as needed
+  cid!: number; // Use definite assignment assertion
 
   constructor(private cartService: CartService, private productService: ProductService) {}
 
   ngOnInit(): void {
+    const userString = sessionStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
+      this.cid = user.cid; // Set Cid from session storage
+    } else {
+      console.error("No user is logged in");
+    }
+
     this.cartService.getItems().subscribe({
       next: (items: CartItem[]) => {
         this.cartItems = items;
@@ -38,9 +46,14 @@ export class CartComponent implements OnInit {
   }
 
   purchase(): void {
+    if (!this.cid) {
+      console.error("Customer ID is not set");
+      return;
+    }
+
     const purchases = this.cartItems.map(item => ({
       productId: item.productId,
-      customerId: this.customerId,
+      cid: this.cid,
       quantity: item.quantity,
       totalPrice: this.getTotalPrice(item)
     }));
