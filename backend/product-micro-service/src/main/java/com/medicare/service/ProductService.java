@@ -69,6 +69,11 @@ public class ProductService {
 
         System.out.println("Order request sent: " + orderRequest);
     }
+    
+    //product by type
+    public List<Product> getProductsByType(String type) {
+        return productRepository.findByProductType(type);
+    }
   
     
 }

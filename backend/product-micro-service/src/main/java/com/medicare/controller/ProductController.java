@@ -1,6 +1,8 @@
 package com.medicare.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.medicare.entity.Product;
 import com.medicare.service.ProductService;
@@ -50,5 +52,15 @@ public class ProductController {
                 request.getTotalPrice()
             )
         );
+    }
+    
+    //product filter
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<Product>> getProductsByType(@PathVariable("type") String type) {
+        List<Product> products = productService.getProductsByType(type);
+        if (products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 }

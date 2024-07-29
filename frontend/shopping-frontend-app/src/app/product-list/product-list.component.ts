@@ -15,6 +15,7 @@ export class ProductListComponent implements OnInit {
   selectedProduct: Product | null = null; // Holds the selected product for the modal
   quantity: number = 1; // Holds the quantity for the selected product
   modalRef!: BsModalRef; // Non-null assertion operator used here
+  selectedType: string = ''; 
 
   constructor(
     private productService: ProductService, 
@@ -58,4 +59,29 @@ export class ProductListComponent implements OnInit {
       this.modalRef.hide();  // Hide the modal
     }
   }
+
+  onTypeChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    this.selectedType = selectElement.value;
+    if (this.selectedType) {
+      this.productService.getProductsByType(this.selectedType).subscribe({
+        next: (data: Product[]) => {
+          this.products = data;
+        },
+        error: (error) => {
+          console.error('Error fetching products by type', error);
+        }
+      });
+    } else {
+      this.productService.getProducts().subscribe({
+        next: (data: Product[]) => {
+          this.products = data;
+        },
+        error: (error) => {
+          console.error('Error fetching products', error);
+        }
+      });
+    }
+  }
 }
+

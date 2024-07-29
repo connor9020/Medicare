@@ -16,6 +16,8 @@ public class Product {
 	private String description;
 	private double price;
 	private int stock;
+	
+    private String productType;
 
 	public Product() {
 
@@ -71,5 +73,15 @@ public class Product {
 	public void setStockFromPurchase(int quantity) {
 		this.stock -= stock;
 	}
+
+	public String getProductType() {
+		return productType;
+	}
+
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	
+	
 
 }
