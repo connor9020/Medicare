@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 
@@ -40,6 +40,8 @@ export class ProductService {
   }
 
   getProductsByType(type: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/type/${type}`);
+    return this.http.get<Product[]>(`${this.apiUrl}/type`, {
+      params: new HttpParams().set('type', type)
+    });
   }
 }

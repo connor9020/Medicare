@@ -55,11 +55,13 @@ public class ProductController {
     }
     
     //product filter
-    @GetMapping("/type/{type}")
-    public ResponseEntity<List<Product>> getProductsByType(@PathVariable("type") String type) {
-        List<Product> products = productService.getProductsByType(type);
-        if (products.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @GetMapping("/type")
+    public ResponseEntity<List<Product>> getProductsByType(@RequestParam(value = "type", required = false) String type) {
+        List<Product> products;
+        if (type == null || type.isEmpty() || type.equalsIgnoreCase("All")) {
+            products = productService.getAllProducts();
+        } else {
+            products = productService.getProductsByType(type);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

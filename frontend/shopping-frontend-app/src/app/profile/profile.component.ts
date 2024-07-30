@@ -16,6 +16,7 @@ export class ProfileComponent implements OnInit {
   name: string = "";
   phone: string = "";
   Cid!: number; // defintite assignment assertion for cid per session
+  balance!: number;
   orders: (Order & { productName?: string })[] = []; // Extend Order with productName
 
   constructor(
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnInit {
       this.name = user.name;
       this.phone = user.phone;
       this.Cid = user.cid; // Get customer ID from user object
+      this.balance = user.balance
       this.loadOrders(); // Ensure Cid is set from sessionStorage
     } else {
       console.error("No user is logged in");

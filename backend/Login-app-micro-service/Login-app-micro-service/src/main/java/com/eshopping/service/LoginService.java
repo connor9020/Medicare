@@ -22,13 +22,18 @@ public class LoginService {
     LoginRepository loginRepository;
 
     public String signUp(Login login) {
-        if (loginRepository.existsByEmailid(login.getEmailid())) {
-            return "Emailid must be unique";
-        } else if (login.getTypeofuser().equals("admin")) {
-            return "You can't create admin account";
-        } else {
-            loginRepository.save(login);
-            return "Account created successfully";
+        try {
+            if (loginRepository.existsByEmailid(login.getEmailid())) {
+                return "Emailid must be unique";
+            } else if (login.getTypeofuser().equals("admin")) {
+                return "You can't create admin account";
+            } else {
+                loginRepository.save(login);
+                return "Account created successfully";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Internal Server Error: " + e.getMessage();
         }
     }
 
@@ -44,6 +49,7 @@ public class LoginService {
                 response.put("emailid", ll.getEmailid());
                 response.put("name", ll.getName());
                 response.put("phone", ll.getPhone());
+                response.put("balance", ll.getBalance());
                 response.put("typeofuser", ll.getTypeofuser());
                 if (ll.getTypeofuser().equals(login.getTypeofuser()) && ll.getTypeofuser().equals("admin")) {
                     response.put("message", "Admin login successfully");

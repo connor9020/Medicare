@@ -1,4 +1,3 @@
-<!-- src/app/components/admin-dashboard/admin-dashboard.component.html -->
 <div class="container mt-3">
   <h2 class="text-center">Admin Dashboard</h2>
   <hr />
@@ -36,6 +35,10 @@
               <label for="stock">Stock:</label>
               <input type="number" class="form-control" id="stock" [(ngModel)]="newProduct.stock" name="stock" required>
             </div>
+            <div class="form-group">
+              <label for="productType">Product Type:</label>
+              <input type="text" class="form-control" id="productType" [(ngModel)]="newProduct.productType" name="productType" required>
+            </div>
             <button type="submit" class="btn btn-success mt-2">Add Product</button>
           </form>
         </div>
@@ -51,6 +54,7 @@
               <th>Description</th>
               <th>Price</th>
               <th>Stock</th>
+              <th>Product Type</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -61,37 +65,14 @@
               <td>{{ product.description }}</td>
               <td>{{ product.price }}</td>
               <td>{{ product.stock }}</td>
+              <td>{{ product.productType }}</td>
               <td>
-                <button class="btn btn-warning btn-sm me-2" (click)="editProduct(product)">Edit</button> 
+                <button class="btn btn-warning btn-sm me-2" (click)="openEditModal(editTemplate, product)">Edit</button>
                 <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Delete</button>
               </td>
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div *ngIf="updateProduct.id" class="mt-4">
-        <h3>Edit Product</h3>
-        <form #updateProductForm="ngForm" (ngSubmit)="updateProductDetails()">
-          <div class="form-group">
-            <label for="editName">Name:</label>
-            <input type="text" class="form-control" id="editName" [(ngModel)]="updateProduct.name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="editDescription">Description:</label>
-            <input type="text" class="form-control" id="editDescription" [(ngModel)]="updateProduct.description" name="description" required>
-          </div>
-          <div class="form-group">
-            <label for="editPrice">Price:</label>
-            <input type="number" class="form-control" id="editPrice" [(ngModel)]="updateProduct.price" name="price" required>
-          </div>
-          <div class="form-group">
-            <label for="editStock">Stock:</label>
-            <input type="number" class="form-control" id="editStock" [(ngModel)]="updateProduct.stock" name="stock" required>
-          </div>
-          <button type="submit" class="btn btn-primary mt-2">Update Product</button>
-          <button type="button" class="btn btn-secondary mt-2" (click)="cancelEdit()">Cancel</button>
-        </form>
       </div>
     </div>
 
@@ -101,11 +82,11 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Product</th>
+              <th>Order ID</th>
+              <th>Product #</th>
               <th>Quantity</th>
               <th>Total Price</th>
-              <th>Customer</th>
+              <th>Customer ID</th>
             </tr>
           </thead>
           <tbody>
@@ -113,13 +94,46 @@
               <td>{{ order.id }}</td>
               <td>{{ order.productId }}</td>
               <td>{{ order.quantity }}</td>
-              <td>{{ order.totalPrice }}</td>
-              <td>{{ order.customerId }}</td>
+              <td>{{ order.totalPrice | currency}}</td>
+              <td>{{ order.cid }}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
-</div>
 
+  </div>
+
+  <!-- Edit Product Modal -->
+  <ng-template #editTemplate>
+    <div class="modal-header">
+      <h5 class="modal-title">Edit Product</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="cancelEdit()"></button>
+    </div>
+    <div class="modal-body">
+      <form #updateProductForm="ngForm" (ngSubmit)="updateProductDetails()">
+        <div class="form-group">
+          <label for="editName">Name:</label>
+          <input type="text" class="form-control" id="editName" [(ngModel)]="updateProduct.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description:</label>
+          <input type="text" class="form-control" id="editDescription" [(ngModel)]="updateProduct.description" name="description" required>
+        </div>
+        <div class="form-group">
+          <label for="editPrice">Price:</label>
+          <input type="number" class="form-control" id="editPrice" [(ngModel)]="updateProduct.price" name="price" required>
+        </div>
+        <div class="form-group">
+          <label for="editStock">Stock:</label>
+          <input type="number" class="form-control" id="editStock" [(ngModel)]="updateProduct.stock" name="stock" required>
+        </div>
+        <div class="form-group">
+          <label for="editProductType">Product Type:</label>
+          <input type="text" class="form-control" id="editProductType" [(ngModel)]="updateProduct.productType" name="productType" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Update Product</button>
+      </form>
+    </div>
+  </ng-template>
+</div>

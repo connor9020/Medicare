@@ -8,7 +8,7 @@ import { Order } from '../models/order.model';
 })
 export class OrderService {
 
-  private baseUrl = 'http://localhost:8081/orders'; // Adjust the port as per your microservice setup
+  private baseUrl = 'http://localhost:8081/orders';
 
   constructor(private http: HttpClient) { }
 
@@ -40,5 +40,8 @@ export class OrderService {
     const params = new HttpParams().set('Cid', Cid.toString());
     return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
   }
-}
 
+  getAllOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/all`);
+  }
+}

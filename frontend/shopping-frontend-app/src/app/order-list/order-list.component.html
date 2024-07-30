@@ -18,7 +18,7 @@
             <td>{{ order.productName }}</td>
             <td>{{ order.quantity }}</td>
             <td>{{ formatOrderDate(order.orderDate) }}</td>
-            <td>{{ order.totalPrice }}</td>
+            <td>{{ order.totalPrice | currency}}</td>
           </tr>
         </tbody>
       </table>

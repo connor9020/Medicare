@@ -16,7 +16,7 @@ public class Login {
 	private String typeofuser;
 	private String name;
 	private String phone;
-	private Double balance;
+	private Double balance = 0.0;
 
 	public String getEmailid() {
 		return emailid;

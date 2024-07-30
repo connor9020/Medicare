@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ProductService } from '../services/product.service';
 import { Product } from '../models/product.model';
 import { OrderService } from '../services/order.service';
 import { Order } from '../models/order.model';
 import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-admindashboard',
@@ -14,6 +15,8 @@ import { Router } from '@angular/router';
 export class AdminDashboardComponent implements OnInit {
   @ViewChild('addProductForm') addProductForm!: NgForm;
   @ViewChild('updateProductForm') updateProductForm!: NgForm;
+  modalRef!: BsModalRef;
+  productTypes: string[] = ['Medication', 'Supplements', 'Personal Care', 'Fitness', 'Health Devices', 'Family Care', 'Miscellaneous'];
 
   newProduct: Product = new Product();
   updateProduct: Product = new Product();
@@ -24,12 +27,13 @@ export class AdminDashboardComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
     this.loadProducts();
-    this.loadOrders();
+    this.fetchAllOrders();
   }
 
   showProductManagement(): void {
@@ -81,17 +85,6 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  loadOrders(): void {
-    this.orderService.getOrders().subscribe({
-      next: (response) => {
-        this.orders = response;
-      },
-      error: (error) => {
-        console.error('Error fetching orders:', error);
-      }
-    });
-  }
-
   editProduct(product: Product): void {
     this.updateProduct = { ...product }; // Copy product to updateProduct
     // Optionally switch to the product management tab if needed
@@ -105,6 +98,17 @@ export class AdminDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error deleting product:', error);
+      }
+    });
+  }
+
+  fetchAllOrders(): void {
+    this.orderService.getAllOrders().subscribe({
+      next: (data: Order[]) => {
+        this.orders = data;
+      },
+      error: (error) => {
+        console.error('Error fetching orders:', error);
       }
     });
   }
@@ -126,5 +130,9 @@ export class AdminDashboardComponent implements OnInit {
       this.updateProductForm.reset();
     }
   }
-}
 
+  openEditModal(template: TemplateRef<any>, product: Product): void {
+    this.updateProduct = { ...product };
+    this.modalRef = this.modalService.show(template);
+  }
+}

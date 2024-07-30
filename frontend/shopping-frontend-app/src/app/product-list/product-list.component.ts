@@ -12,13 +12,13 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-  selectedProduct: Product | null = null; // Holds the selected product for the modal
-  quantity: number = 1; // Holds the quantity for the selected product
-  modalRef!: BsModalRef; // Non-null assertion operator used here
-  selectedType: string = ''; 
+  selectedProduct: Product | null = null;
+  quantity: number = 1;
+  modalRef!: BsModalRef;
+  quantityError: string | null = null; // Add this line
 
   constructor(
-    private productService: ProductService, 
+    private productService: ProductService,
     private cartService: CartService,
     private modalService: BsModalService
   ) { }
@@ -34,11 +34,18 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>, product: Product): void { // Shows the modal and sets the selected product
-    this.selectedProduct = product;
-    this.quantity = 1;  // Reset quantity to 1 for each new product selection
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, product: Product): void {
+    if (product.stock > 0) {
+      this.selectedProduct = product;
+      this.quantity = 1;
+      this.quantityError = null; // Reset error message
+      this.modalRef = this.modalService.show(template);
+    } else {
+      // Display a message or handle the case where stock is zero
+      alert('This product is currently out of stock.');
+    }
   }
+
 
   getTotalPrice(): number {
     if (this.selectedProduct) {
@@ -47,7 +54,7 @@ export class ProductListComponent implements OnInit {
     return 0;
   }
 
-  addToCart(): void { // Adds the selected product with the specified quantity to the cart
+  addToCart(): void {
     if (this.selectedProduct) {
       const cartItem: CartItem = {
         productId: this.selectedProduct.id,
@@ -56,23 +63,13 @@ export class ProductListComponent implements OnInit {
         quantity: this.quantity
       };
       this.cartService.addItem(cartItem);
-      this.modalRef.hide();  // Hide the modal
+      this.modalRef.hide();
     }
   }
 
   onTypeChange(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    this.selectedType = selectElement.value;
-    if (this.selectedType) {
-      this.productService.getProductsByType(this.selectedType).subscribe({
-        next: (data: Product[]) => {
-          this.products = data;
-        },
-        error: (error) => {
-          console.error('Error fetching products by type', error);
-        }
-      });
-    } else {
+    const selectedType = (event.target as HTMLSelectElement).value;
+    if (selectedType === "All") {
       this.productService.getProducts().subscribe({
         next: (data: Product[]) => {
           this.products = data;
@@ -81,7 +78,15 @@ export class ProductListComponent implements OnInit {
           console.error('Error fetching products', error);
         }
       });
+    } else {
+      this.productService.getProductsByType(selectedType).subscribe({
+        next: (data: Product[]) => {
+          this.products = data;
+        },
+        error: (error) => {
+          console.error('Error fetching products by type', error);
+        }
+      });
     }
   }
 }
-

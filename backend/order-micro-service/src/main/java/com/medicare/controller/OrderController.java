@@ -27,7 +27,7 @@ public class OrderController {
     }
 
     // Get all orders
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return new ResponseEntity<>(orders, HttpStatus.OK);
@@ -59,5 +59,6 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }
 
