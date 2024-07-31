@@ -9,7 +9,7 @@ public class Login {
 
 	@Id
 	@GeneratedValue
-	private int cid;
+	private Long cid;
 
 	private String emailid;
 	private String password;
@@ -58,11 +58,11 @@ public class Login {
 		this.phone = phone;
 	}
 
-	public int getCid() {
+	public Long getCid() {
 		return cid;
 	}
 
-	public void setCid(int cid) {
+	public void setCid(Long cid) {
 		this.cid = cid;
 	}
 

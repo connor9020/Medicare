@@ -22,7 +22,6 @@ export class CustomerDashboardComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private productService: ProductService,
-    private customerService: CustomerService
   ) {}
 
   ngOnInit(): void {

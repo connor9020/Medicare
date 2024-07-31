@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { CartItem } from '../models/cart-item.model';
+import { UpdateBalanceService } from '../services/updatebalance.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,15 +11,21 @@ import { CartItem } from '../models/cart-item.model';
 })
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
-  cid!: number; // Use definite assignment assertion
+  cid!: number;
+  balance: number = 0;
+  totalCost: number = 0;
 
-  constructor(private cartService: CartService, private productService: ProductService) {}
+  constructor(
+    private cartService: CartService, 
+    private productService: ProductService,
+    private updateBalanceService: UpdateBalanceService
+  ) {}
 
   ngOnInit(): void {
     const userString = sessionStorage.getItem("user");
     if (userString) {
       const user = JSON.parse(userString);
-      this.cid = user.cid; // Set Cid from session storage
+      this.cid = user.cid;
     } else {
       console.error("No user is logged in");
     }
@@ -58,17 +65,39 @@ export class CartComponent implements OnInit {
       totalPrice: this.getTotalPrice(item)
     }));
 
-    console.log('Sending purchase request:', purchases); // Logging the purchase request for debugging
+    console.log('Sending purchase request:', purchases);
 
     this.productService.updateStockAndLogOrder(purchases).subscribe({
       next: () => {
         console.log('Stock updated and orders logged successfully');
         this.cartService.clearCart();
         this.cartItems = [];
+        this.updateBalanceAfterPurchase(this.getTotalOrderCost());
       },
       error: (error) => {
         console.error('Error updating stock and logging orders:', error);
       }
     });
   }
+
+  updateBalanceAfterPurchase(totalCost: number): void {
+    const userString = sessionStorage.getItem("user");
+    if (userString) {
+      const user = JSON.parse(userString);
+      const newBalance = user.balance - totalCost;
+      this.updateBalanceService.updateBalance(user.cid, newBalance).subscribe({
+        next: (response) => {
+          console.log('Balance updated:', response);
+          user.balance = newBalance;
+          sessionStorage.setItem("user", JSON.stringify(user)); // Update user in session storage
+        },
+        error: (error) => {
+          console.error('Error updating balance:', error);
+        }
+      });
+    } else {
+      console.error("No user is logged in");
+    }
+  }
 }
+

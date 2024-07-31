@@ -15,6 +15,7 @@ import { ProductService } from './services/product.service';
 import { CartComponent } from './cart/cart.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HttpClientModule,
     FormsModule, 
     ModalModule.forRoot(),
-    ReactiveFormsModule  
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [ProductService, ProductListComponent],
   bootstrap: [AppComponent]

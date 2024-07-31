@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderService } from '../services/order.service';
-import { Order } from '../models/order.model';
-import { ProductService } from '../services/product.service'; // Import ProductService
+import { ProductService } from '../services/product.service';
 import { DatePipe } from '@angular/common';
+import { UpdateBalanceService } from '../services/updatebalance.service'; // Import the new service
+import { Order } from '../models/order.model';
+
 
 @Component({
   selector: 'app-profile',
@@ -15,42 +17,42 @@ export class ProfileComponent implements OnInit {
   emailid: string = "";
   name: string = "";
   phone: string = "";
-  Cid!: number; // defintite assignment assertion for cid per session
+  cid!: number;
   balance!: number;
-  orders: (Order & { productName?: string })[] = []; // Extend Order with productName
+  orders: (Order & { productName?: string })[] = [];
 
   constructor(
     private orderService: OrderService,
     private productService: ProductService,
+    private updateBalanceService: UpdateBalanceService, // Use UpdateBalanceService here
     private datePipe: DatePipe,
-    private router: Router // logout button
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const userString = sessionStorage.getItem("user");
     if (userString) {
       const user = JSON.parse(userString);
-      console.log('User object:', user); // Log the user object to check its structure
+      console.log('User object:', user); 
       this.emailid = user.emailid;
       this.name = user.name;
       this.phone = user.phone;
-      this.Cid = user.cid; // Get customer ID from user object
-      this.balance = user.balance
-      this.loadOrders(); // Ensure Cid is set from sessionStorage
+      this.cid = user.cid;
+      this.balance = user.balance;
+      this.loadOrders(); 
     } else {
       console.error("No user is logged in");
     }
   }
-  
 
   loadOrders(): void {
-    if (this.Cid) {
-      this.orderService.getOrders(this.Cid).subscribe(
+    if (this.cid) {
+      this.orderService.getOrders(this.cid).subscribe(
         async response => {
           this.orders = await Promise.all(
             response
-            .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
-            .slice(0, 5) // limits orders on profile page to 5
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 5)
             .map(async order => {
               try {
                 const product = await this.productService.getProductById(order.productId).toPromise();
@@ -76,9 +78,21 @@ export class ProfileComponent implements OnInit {
     return formattedDate ? formattedDate : orderDate;
   }
 
-  // Implement logout method
   logout(): void {
-    sessionStorage.removeItem("user"); // Clear session storage
-    this.router.navigate(['/login']); // Redirect to login page
+    sessionStorage.removeItem("user");
+    this.router.navigate(['/login']);
+  }
+
+  handlePurchase(totalCost: number): void {
+    const newBalance = this.balance - totalCost;
+    this.updateBalanceService.updateBalance(this.cid, newBalance).subscribe({
+      next: (response) => {
+        console.log('Balance updated:', response);
+        this.balance = newBalance;
+      },
+      error: (error) => {
+        console.error('Error updating balance:', error);
+      }
+    });
   }
 }

@@ -5,6 +5,7 @@ import { CartService } from '../services/cart.service';
 import { CartItem } from '../models/cart-item.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',

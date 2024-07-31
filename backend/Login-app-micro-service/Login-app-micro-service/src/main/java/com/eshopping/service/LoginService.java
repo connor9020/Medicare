@@ -67,7 +67,22 @@ public class LoginService {
             logger.warn("No user found with email: {}", login.getEmailid());
             response.put("message", "Emailid is wrong");
         }
-        return response;
+        return response; 
+        
     }
+    
+    public boolean updateBalance(Long cid, double newBalance) {
+        Optional<Login> optionalLogin = loginRepository.findById(cid);
+        if (optionalLogin.isPresent()) {
+            Login login = optionalLogin.get();
+            login.setBalance(newBalance);
+            loginRepository.save(login);
+            return true; // Return boolean value
+        } else {
+            return false; // Return boolean value
+        }
+    }
+    
+
 }
 

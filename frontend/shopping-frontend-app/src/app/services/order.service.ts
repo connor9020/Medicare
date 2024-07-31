@@ -44,4 +44,9 @@ export class OrderService {
   getAllOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}/all`);
   }
+
+  updateBalance(userId: number, newBalance: number): Observable<any> {
+    const url = `http://localhost:8181/login/updateBalance`;
+    return this.http.put(url, { cid: userId, balance: newBalance });
+  }
 }
