@@ -16,6 +16,7 @@ import { CartComponent } from './cart/cart.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CommonModule } from '@angular/common';
+import { UpdateBalanceService } from './services/updatebalance.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule
   ],
-  providers: [ProductService, ProductListComponent],
+  providers: [ProductService, ProductListComponent, UpdateBalanceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

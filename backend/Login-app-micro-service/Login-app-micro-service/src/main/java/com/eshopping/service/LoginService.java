@@ -71,15 +71,15 @@ public class LoginService {
         
     }
     
-    public boolean updateBalance(Long cid, double newBalance) {
+    public boolean updateBalance(Long cid, Double newBalance) {
         Optional<Login> optionalLogin = loginRepository.findById(cid);
         if (optionalLogin.isPresent()) {
             Login login = optionalLogin.get();
             login.setBalance(newBalance);
             loginRepository.save(login);
-            return true; // Return boolean value
+            return true;
         } else {
-            return false; // Return boolean value
+            return false;
         }
     }
     

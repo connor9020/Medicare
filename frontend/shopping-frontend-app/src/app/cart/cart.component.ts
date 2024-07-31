@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { CartItem } from '../models/cart-item.model';
+
 import { UpdateBalanceService } from '../services/updatebalance.service';
 
 @Component({
@@ -85,14 +86,17 @@ export class CartComponent implements OnInit {
     if (userString) {
       const user = JSON.parse(userString);
       const newBalance = user.balance - totalCost;
+      console.log(`Updating balance for user ${user.cid} from ${user.balance} to ${newBalance}`);
+    
       this.updateBalanceService.updateBalance(user.cid, newBalance).subscribe({
         next: (response) => {
-          console.log('Balance updated:', response);
+          console.log('Balance updated successfully:', response);
           user.balance = newBalance;
           sessionStorage.setItem("user", JSON.stringify(user)); // Update user in session storage
         },
         error: (error) => {
           console.error('Error updating balance:', error);
+          console.error('Error details:', error.message);
         }
       });
     } else {

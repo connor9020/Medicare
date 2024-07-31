@@ -14,6 +14,7 @@ import com.eshopping.entity.Login;
 import com.eshopping.entity.UpdateBalanceRequest;
 import com.eshopping.service.LoginService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,16 +35,16 @@ public class LoginController {
         return loginService.signUp(login);
     }
     
-    @PutMapping(value = "/updateBalance", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateBalance(@RequestBody UpdateBalanceRequest request) {
-        System.out.println("Request received: " + request);
-        boolean success = loginService.updateBalance(request.getCid(), request.getBalance());
-        if (success) {
-            System.out.println("Balance updated successfully for CID: " + request.getCid());
-            return ResponseEntity.ok("Balance updated successfully");
+    @PutMapping("/updateBalance")
+    public ResponseEntity<Map<String, String>> updateBalance(@RequestBody Login login) {
+        boolean isUpdated = loginService.updateBalance(login.getCid(), login.getBalance());
+        Map<String, String> response = new HashMap<>();
+        if (isUpdated) {
+            response.put("message", "Balance updated successfully");
+            return ResponseEntity.ok(response);
         } else {
-            System.out.println("Error updating balance for CID: " + request.getCid());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating balance");
+            response.put("message", "Failed to update balance");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }
