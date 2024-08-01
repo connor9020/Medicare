@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { CartItem } from '../models/cart-item.model';
-
 import { UpdateBalanceService } from '../services/updatebalance.service';
 
 @Component({
@@ -27,6 +26,7 @@ export class CartComponent implements OnInit {
     if (userString) {
       const user = JSON.parse(userString);
       this.cid = user.cid;
+      this.balance = user.balance;
     } else {
       console.error("No user is logged in");
     }
@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
     this.cartService.getItems().subscribe({
       next: (items: CartItem[]) => {
         this.cartItems = items;
+        this.totalCost = this.getTotalOrderCost();
       },
       error: (error) => {
         console.error('Error fetching cart items', error);
@@ -51,6 +52,7 @@ export class CartComponent implements OnInit {
 
   removeFromCart(productId: number): void {
     this.cartService.removeItem(productId);
+    this.totalCost = this.getTotalOrderCost();
   }
 
   purchase(): void {
@@ -59,6 +61,8 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    this.totalCost = this.getTotalOrderCost();
+
     const purchases = this.cartItems.map(item => ({
       productId: item.productId,
       cid: this.cid,
@@ -66,14 +70,9 @@ export class CartComponent implements OnInit {
       totalPrice: this.getTotalPrice(item)
     }));
 
-    console.log('Sending purchase request:', purchases);
-
     this.productService.updateStockAndLogOrder(purchases).subscribe({
       next: () => {
-        console.log('Stock updated and orders logged successfully');
-        this.cartService.clearCart();
-        this.cartItems = [];
-        this.updateBalanceAfterPurchase(this.getTotalOrderCost());
+        this.updateBalanceAfterPurchase(this.totalCost);
       },
       error: (error) => {
         console.error('Error updating stock and logging orders:', error);
@@ -86,17 +85,16 @@ export class CartComponent implements OnInit {
     if (userString) {
       const user = JSON.parse(userString);
       const newBalance = user.balance - totalCost;
-      console.log(`Updating balance for user ${user.cid} from ${user.balance} to ${newBalance}`);
-    
+  
       this.updateBalanceService.updateBalance(user.cid, newBalance).subscribe({
         next: (response) => {
-          console.log('Balance updated successfully:', response);
           user.balance = newBalance;
-          sessionStorage.setItem("user", JSON.stringify(user)); // Update user in session storage
+          sessionStorage.setItem("user", JSON.stringify(user));
+          this.cartService.clearCart();
+          this.cartItems = [];
         },
         error: (error) => {
           console.error('Error updating balance:', error);
-          console.error('Error details:', error.message);
         }
       });
     } else {
@@ -104,4 +102,3 @@ export class CartComponent implements OnInit {
     }
   }
 }
-
