@@ -11,6 +11,7 @@ import { ProductService } from '../services/product.service';
   providers: [DatePipe]
 })
 export class OrderListComponent implements OnInit {
+  // initialize properties of orderlist component
   emailid: string = "";
   name: string = "";
   phone: string = "";
@@ -44,7 +45,7 @@ export class OrderListComponent implements OnInit {
             .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
             .map(async order => {
               try {
-                const product = await this.productService.getProductById(order.productId).toPromise();
+                const product = await this.productService.getProductById(order.productId).toPromise(); // after sorting, fetch productName for the order
                 return { ...order, productName: product ? product.name : 'Unknown Product' };
               } catch (error) {
                 console.error(`Error fetching product details for productId: ${order.productId}`, error);

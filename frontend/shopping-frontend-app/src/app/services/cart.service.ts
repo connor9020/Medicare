@@ -17,12 +17,12 @@ export class CartService {
 
   addItem(item: CartItem): void {
     const existingItem = this.items.find(i => i.productId === item.productId);
-    if (existingItem) {
+    if (existingItem) { // if item already exists, add quantity
       existingItem.quantity += item.quantity;
     } else {
       this.items.push(item);
     }
-    this.cartSubject.next(this.items);
+    this.cartSubject.next(this.items); // update the cart subject
   }
 
   removeItem(productId: number): void {

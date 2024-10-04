@@ -37,15 +37,15 @@ public class LoginService {
         }
     }
 
-    public Map<String, Object> signIn(Login login) {
+    public Map<String, Object> signIn(Login login) { // method returns map with string keys - object values
         Map<String, Object> response = new HashMap<>();
         Optional<Login> result = loginRepository.findByEmailid(login.getEmailid());
-        if (result.isPresent()) {
+        if (result.isPresent()) { // when users email is found 
             Login ll = result.get();
             logger.info("Found user with email: {}", login.getEmailid());
             if (ll.getPassword().equals(login.getPassword())) {
                 logger.info("Password matches for user with email: {}", login.getEmailid());
-                response.put("cid", ll.getCid());
+                response.put("cid", ll.getCid()); // if the password is correct, these lines populate the response map with customer's data
                 response.put("emailid", ll.getEmailid());
                 response.put("name", ll.getName());
                 response.put("phone", ll.getPhone());
@@ -71,12 +71,12 @@ public class LoginService {
         
     }
     
-    public boolean updateBalance(Long cid, Double newBalance) {
+    public boolean updateBalance(Long cid, Double newBalance) { // returns t/f if balance was updated successfully
         Optional<Login> optionalLogin = loginRepository.findById(cid);
         if (optionalLogin.isPresent()) {
             Login login = optionalLogin.get();
             login.setBalance(newBalance);
-            loginRepository.save(login);
+            loginRepository.save(login); // if user is present, get login object from optional and setBalance to new balance value
             return true;
         } else {
             return false;

@@ -83,7 +83,7 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  handlePurchase(totalCost: number): void {
+  handlePurchase(totalCost: number): void { // calculates new balance and updates it in db
     const newBalance = this.balance - totalCost;
     this.updateBalanceService.updateBalance(this.cid, newBalance).subscribe({
       next: (response) => {

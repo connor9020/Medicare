@@ -16,14 +16,14 @@ import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication(scanBasePackages = "com.eshopping")
 @EntityScan(basePackages = "com.eshopping.entity")
-@EnableJpaRepositories(basePackages = "com.eshopping.repository")
-@EnableDiscoveryClient(autoRegister = true)
+@EnableJpaRepositories(basePackages = "com.eshopping.repository") 
+@EnableDiscoveryClient(autoRegister = true) // allows eureka to see the microservice
 public class LoginAppMicroServiceApplication {
 
 	@Autowired
-	LoginRepository loginRepository;
+	LoginRepository loginRepository; // DI - allows loginRepository methods
 
-	@PostConstruct
+	@PostConstruct  // runs only once to check for admin account
 	public void init() {
 		// Use custom repository method to find by emailid
 		Optional<Login> result = loginRepository.findByEmailid("admin@gmail.com");

@@ -11,7 +11,7 @@ import { Customer } from '../models/customer.model';
   templateUrl: './customerdashboard.component.html',
   styleUrls: ['./customerdashboard.component.css']
 })
-export class CustomerDashboardComponent implements OnInit {
+export class CustomerDashboardComponent implements OnInit { //export properties to other components (orders, cart, profile etc)
   Cid!: number;
   emailid: string = "";
   customer: Customer | null = null; // Define the customer property
@@ -19,7 +19,7 @@ export class CustomerDashboardComponent implements OnInit {
   products: Product[] = [];
   cart: { product: Product, quantity: number }[] = [];
 
-  constructor(
+  constructor( // DI for tabs
     private orderService: OrderService,
     private productService: ProductService,
   ) {}
@@ -29,7 +29,7 @@ export class CustomerDashboardComponent implements OnInit {
     if (userString) {
       const user = JSON.parse(userString);
       console.log('User object:', user); // Log the user object to check its structure
-      this.Cid = user.cid; // Get customer ID from user object
+      this.Cid = user.cid; // Extracts the customer ID from the user object and assigns it to the Cid property.
       this.loadOrders(); // Ensure Cid is set from sessionStorage
     } else {
       console.error("No user is logged in");
@@ -37,14 +37,14 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   loadOrders(): void {
-    if (this.Cid) {
-      this.orderService.getOrders(this.Cid).subscribe(
+    if (this.Cid) { 
+      this.orderService.getOrders(this.Cid).subscribe( // fetches orders based off user Cid
         async response => {
           this.orders = await Promise.all(
             response
               .sort((a, b) => b.id - a.id) // sorts orders by most recent OID
               .map(async order => {
-                try {
+                try { // fetches details of products to display with the order
                   const product = await this.productService.getProductById(order.productId).toPromise();
                   return { ...order, productName: product ? product.name : 'Unknown Product' };
                 } catch (error) {
@@ -75,9 +75,9 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    const existingItem = this.cart.find(item => item.product.id === product.id);
+    const existingItem = this.cart.find(item => item.product.id === product.id); // searches cart array for product user is trying to add
     if (existingItem) {
-      existingItem.quantity++;
+      existingItem.quantity++; //If the product is already in the cart, the quantity of that item is incremented by 1
     } else {
       this.cart.push({ product, quantity: 1 });
     }

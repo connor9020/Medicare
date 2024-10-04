@@ -8,7 +8,7 @@ import { Customer } from '../models/customer.model';
 })
 export class CustomerService {
 
-  private baseUrl = 'http://localhost:8082/customers'; // Adjust the port as per your microservice setup
+  private baseUrl = 'http://localhost:8082/customers'; 
 
   constructor(private http: HttpClient) { }
 

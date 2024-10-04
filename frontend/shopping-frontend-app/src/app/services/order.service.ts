@@ -17,7 +17,8 @@ export class OrderService {
   }
 
   createOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.baseUrl}`, order);
+    const createdOrder = this.http.post<Order>(`${this.baseUrl}`, order);
+    return createdOrder;
   }
 
   updateOrder(id: number, order: Order): Observable<Order> {
@@ -36,7 +37,7 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
   }
 
-  getOrdersByCid(Cid: number): Observable<Order[]> {
+  getOrdersByCid(Cid: number): Observable<Order[]> { // unverified redundant with above method
     const params = new HttpParams().set('Cid', Cid.toString());
     return this.http.get<Order[]>(`${this.baseUrl}/customer`, { params });
   }

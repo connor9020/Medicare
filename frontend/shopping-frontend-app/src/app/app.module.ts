@@ -32,15 +32,15 @@ import { UpdateBalanceService } from './services/updatebalance.service';
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule, 
-    ModalModule.forRoot(),
-    ReactiveFormsModule,
+    BrowserModule, // essential for applications running in browser provides services and directives for working with the DOM, such as 'NgIf' and 'NgFor'
+    AppRoutingModule, //manages navigation between different views or pages of the app
+    HttpClientModule, // allows your app to communicate with backend services over HTTP
+    FormsModule, // allows forms like 'NgModel'
+    ModalModule.forRoot(), // 'ngx-bootstrap' provides modals - pop up quantity selection to put in cart
+    ReactiveFormsModule, // form building and validation
     CommonModule
   ],
   providers: [ProductService, ProductListComponent, UpdateBalanceService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent] // root component that Angular bootstraps when starting the app
 })
 export class AppModule { }

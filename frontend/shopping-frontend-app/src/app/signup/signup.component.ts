@@ -9,15 +9,14 @@ import { LoginService } from '../login.service';
 })
 export class SignupComponent {
 
-  msg:string ="";
-  constructor(public ls:LoginService){} // DI for login service 
+  msg:string =""; // property that holds msg to be displayed to user like "signup sucessful"
+  constructor(public loginservice :LoginService){} // DI for login service 
 
-  signup(loginref:NgForm): void {
-    let login = loginref.value;
-    console.log(login);
+  signup(loginForm:NgForm): void {
+    const formValues = loginForm.value
 
-    this.ls.signUp(login).subscribe({
-      next:(result:any)=> {
+    this.loginservice.signUp(formValues).subscribe({ // passes the form data from 'login' object to create account
+      next:(result:any)=> { // handles response from server
         this.msg=result
       },
       error:(error:any)=> {
@@ -28,6 +27,6 @@ export class SignupComponent {
       }
     })
 
-    loginref.reset();
+    loginForm.reset();
   }
 }

@@ -11,7 +11,7 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
+  getProducts(): Observable<Product[]> { // Customer dashboard uses this to populate the store -- the rest are mainly used by admin
     return this.http.get<Product[]>(this.apiUrl);
   }
 

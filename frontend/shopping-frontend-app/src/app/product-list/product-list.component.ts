@@ -25,8 +25,8 @@ export class ProductListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe({
-      next: (data: Product[]) => {
+    this.productService.getProducts().subscribe({ // subs to getProducts() method from product service to get the list of products
+      next: (data: Product[]) => { // once fetched it is assigned to an array 
         this.products = data;
       },
       error: (error) => {
@@ -35,7 +35,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>, product: Product): void {
+  openModal(template: TemplateRef<any>, product: Product): void { // checks stock - only allows interaction if in stock
     if (product.stock > 0) {
       this.selectedProduct = product;
       this.quantity = 1;
@@ -68,7 +68,7 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  onTypeChange(event: Event): void {
+  onTypeChange(event: Event): void { // sorting products by type
     const selectedType = (event.target as HTMLSelectElement).value;
     if (selectedType === "All") {
       this.productService.getProducts().subscribe({

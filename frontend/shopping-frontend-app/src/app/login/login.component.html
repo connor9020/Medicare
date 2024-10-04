@@ -1,7 +1,7 @@
 <div>
     <h2>Login Page</h2>
     <span style="color:red;">{{msg}}</span>
-    <form [formGroup]="loginRef" (ngSubmit)="signin()">
+    <form [formGroup]="loginForm" (ngSubmit)="signin()">
         <br>
         <label>Email</label><br/>
         <input type="email" formControlName="emailid"/><br/>

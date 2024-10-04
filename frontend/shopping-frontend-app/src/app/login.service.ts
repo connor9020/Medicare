@@ -24,7 +24,7 @@ export class LoginService {
     return this.http.post(this.baseUrl+"/signin",login,{responseType:'text'});
   }
 
-  signUp(login:any): Observable<string> {
+  signUp(login:any): Observable<string> { // sends login object to the API endpoint /login/signup
     return this.http.post(this.baseUrl+"/signup",login,{responseType:'text'});
   }
 

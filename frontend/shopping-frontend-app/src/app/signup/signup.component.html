@@ -1,9 +1,9 @@
 <div>
     <h2>Account Create</h2>
     <span style="color:red">{{msg}}</span>
-    <form #loginRef="ngForm" (ngSubmit)="signup(loginRef)">
+    <form #loginForm="ngForm" (ngSubmit)="signup(loginForm)"> <!--Binds the form’s submit event to the signup() method -->
         <label>Email</label><br/>
-        <input type="email" name="emailid" ngModel/><br/>
+        <input type="email" name="emailid" ngModel/><br/> <!-- binds the data to the form model -->
         <label>Password</label><br/>
         <input type="password" name="password" ngModel/><br/>
         <label>Name</label><br/>
